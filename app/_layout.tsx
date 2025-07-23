@@ -1,10 +1,11 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+
+import 'react-native-reanimated';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -13,17 +14,25 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 
+  const client = new ApolloClient({
+    uri: 'http://192.168.0.206:4000/', 
+    cache: new InMemoryCache(),
+  })
+
+
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <>
+      <ApolloProvider client={client}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+      <Stack.Screen name="Ponggame" options={{ headerShown: false }} />
+      <Stack.Screen name="openGraphQl" options={{ headerShown: false }} />
+
+    </Stack><StatusBar style="auto" />
+    </ApolloProvider> 
+    </>
   );
 }
