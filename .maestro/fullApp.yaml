@@ -1,0 +1,70 @@
+appId: com.anonymous.StickerSmash
+#appId: com.sudhanshu30602.TaskBit
+---
+# - launchApp:
+#     clearState: true
+
+# - waitForAnimationToEnd
+
+- assertVisible: "Nature"
+
+- assertVisible: "travel"
+
+- tapOn: "Nature"
+
+- assertVisible: "Travel"
+
+# Test horizontal scroll to the right
+- swipe:
+    direction: UP
+    on:
+      id: "scroll"
+
+- swipe:
+    direction: DOWN
+    on:
+      id: "scroll"
+
+- tapOn:
+    id: "backArrow"
+
+- tapOn: "Nature"
+
+- assertVisible: "Travel"
+
+- swipe:
+    direction: UP
+    on:
+      id: "scroll"
+
+- swipe:
+    direction: DOWN
+    on:
+      id: "scroll"
+
+- tapOn: "Travel"
+
+- assertVisible:
+    id: "list-item-0"
+
+- swipe:
+    direction: UP
+    on:
+      id: "scroll-feed"
+
+- swipe:
+    direction: UP
+    on:
+      id: "scroll-feed"
+
+- swipe:
+
+    direction: UP
+    on:
+      id: "scroll-feed"
+
+- swipe:
+    direction: DOWN
+    on:
+      id: "scroll-feed"
+#
