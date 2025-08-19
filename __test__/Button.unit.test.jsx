@@ -1,31 +1,78 @@
-// // Button.test.js
-// import { render } from "@testing-library/react-native";
-// import React from "react";
-// import Button from "../components/Button";
+import React from "react";
+import { Text, TouchableOpacity } from "react-native";
+import Button from "../components/Button";
 
-// describe("Button Component", () => {
-//   test("renders correctly", () => {
-//     const { getByTestId } = render(<Button />);
-//     expect(getByTestId("custom-button")).toBeTruthy();
-//   });
+// Mock React Native components to inspect their props
+jest.mock("react-native", () => {
+  const ActualReactNative = jest.requireActual("react-native");
+  return {
+    ...ActualReactNative,
+    TouchableOpacity: jest.fn(({ children, ...props }) => ({
+      type: "TouchableOpacity",
+      props,
+      children,
+    })),
+    Text: jest.fn(({ children, ...props }) => ({
+      type: "Text",
+      props,
+      children,
+    })),
+  };
+});
 
-//   test("displays correct text", () => {
-//     const { getByText } = render(<Button />);
-//     expect(getByText("Button")).toBeTruthy();
-//   });
+describe("Button Component", () => {
+  beforeEach(() => {
+    // Clear mock calls before each test
+    TouchableOpacity.mockClear();
+    Text.mockClear();
+  });
 
-//   test("has correct styles", () => {
-//     const { getByTestId } = render(<Button />);
-//     const button = getByTestId("custom-button");
-//     expect(button).toHaveStyle({
-//       backgroundColor: "red",
-//       borderRadius: 10,
-//       justifyContent: "center",
-//     });
-//   });
+  test("renders correctly with default props", () => {
+    const component = <Button />;
+    // Simulate shallow rendering by instantiating the component
+    const instance = Button({});
 
-//   test("matches snapshot", () => {
-//     const { toJSON } = render(<Button />);
-//     expect(toJSON()).toMatchSnapshot();
-//   });
-// });
+    // Expect the component to use TouchableOpacity and Text
+    expect(TouchableOpacity).toHaveBeenCalled();
+    expect(Text).toHaveBeenCalled();
+
+    // Serialize the mock calls for a pseudo-snapshot
+    const touchableCall = TouchableOpacity.mock.calls[0][0];
+    const textCall = Text.mock.calls[0][0];
+
+    expect(touchableCall).toEqual(
+      expect.objectContaining({
+        testID: "custom-button",
+        style: expect.objectContaining({
+          backgroundColor: "red",
+          borderRadius: 10,
+          justifyContent: "center",
+        }),
+      })
+    );
+    expect(textCall.children).toBe("Default");
+  });
+
+  test("displays correct text", () => {
+    const component = <Button title="Click Me" />;
+    Button({ title: "Click Me" });
+
+    // Check if Text was called with the correct children
+    const textCall = Text.mock.calls[0][0];
+    expect(textCall.children).toBe("Click Me");
+  });
+
+  test("has correct styles", () => {
+    Button({});
+
+    // Check the style prop of TouchableOpacity
+    const touchableCall = TouchableOpacity.mock.calls[0][0];
+    expect(touchableCall.style).toEqual(
+      expect.objectContaining({
+        backgroundColor: "red",
+        borderRadius: 10,
+        justifyContent: "center",
+      })
+    );
+  });
+});
