@@ -11,10 +11,11 @@ An Expo app showcasing several image grid patterns built with React Native. Loca
 Start from `app/grid.jsx` ➜ open `app/patternGrid.jsx` ➜ dive into `app/feedGrid.jsx` ➜ optional handoff to `app/trial.jsx`.
 
 ## Screenshots
-Images captured from the current build live at the repo root:
-- `Screenshot%20from%202025-11-24%2019-01-00.png`
-- `Screenshot%20from%202025-11-24%2019-01-17.png`
-- `Screenshot%20from%202025-11-24%2019-01-25.png`
+Images live at the repo root and render directly on GitHub:
+
+- ![Category Grid](Screenshot%20from%202025-11-24%2019-01-00.png)
+- ![Masonry Grid](Screenshot%20from%202025-11-24%2019-01-17.png)
+- ![Feed Mosaic](Screenshot%20from%202025-11-24%2019-01-25.png)
 
 ## Run locally
 1) Install dependencies: `npm install`  
